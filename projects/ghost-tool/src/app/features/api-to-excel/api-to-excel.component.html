@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row middle-central-flex">
+        <!-- Input JSON -->
+        <div class="col-lg-4 col-md-12">
+            <textarea type="text" [(ngModel)]="inputJson" style="min-width: 100%; min-height: 300px;">
+            </textarea>
+        </div>
+        <!-- Button -->
+        <div class="col-lg-12 col-md-12 text-center">
+            <button [disabled]="isRunning" class="btn btn-primary" (click)="jsonToExcel()">
+                <i class="fa fa-excel-o">&nbsp;Download Excel</i>
+            </button>
+        </div>
+    </div>
+</div>

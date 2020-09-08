@@ -1,0 +1,28 @@
+.mh-view {
+    min-height: 100%;
+}
+.preview-container {
+}
+.list-factor-containter {
+}
+@media all and (min-width: 768px) {
+    tr td {
+        vertical-align: middle !important;
+    }
+    tr span:not([class]) {
+        padding: 1rem 1rem;
+    }
+}
+span {
+    padding: 0 !important;
+}
+.mr-bt {
+    margin-bottom: 10px;
+}
+.fix-size-col {
+    max-width: 175px;
+    max-height: 50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

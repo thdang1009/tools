@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+    Ghost's tools
+    <span class="spacer"></span>
+    <button mat-flat-button color="primary" routerLink="home" routerLinkActive="active">
+        <i class="fa fa-home">
+        </i>
+        <span class="ml2">Home</span>
+    </button>
+    <button mat-flat-button color="primary" routerLink="admin" routerLinkActive="active">
+        <i class="fa fa-user">
+        </i>
+        <span class="ml2">Admin</span>
+    </button>
+    <button mat-flat-button color="primary" routerLink="api-to-excel" routerLinkActive="active">
+        <i class="fa fa-file-excel-o">
+        </i>
+        <span class="ml2">JSON To Excel</span>
+    </button>
+    <button mat-flat-button color="primary" routerLink="life-circle-drawer" routerLinkActive="active">
+        <i class="fa fa-paint-brush">
+        </i>
+        <span class="ml2">Life Circle Drawer</span>
+    </button>
+</mat-toolbar>
+<main>
+    <router-outlet></router-outlet>
+</main>

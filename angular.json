@@ -1,0 +1,141 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ghost-tool": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ghost-tool",
+      "sourceRoot": "projects/ghost-tool/src",
+      "prefix": "my-org",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ghost-tool",
+            "index": "projects/ghost-tool/src/index.html",
+            "main": "projects/ghost-tool/src/main.ts",
+            "polyfills": "projects/ghost-tool/src/polyfills.ts",
+            "tsConfig": "projects/ghost-tool/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ghost-tool/src/ghost.ico",
+              "projects/ghost-tool/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/ghost-tool/src/styles.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/font-awesome/css/font-awesome.css"
+            ],
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ghost-tool/src/environments/environment.ts",
+                  "with": "projects/ghost-tool/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ghost-tool:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ghost-tool:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ghost-tool:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ghost-tool/src/test.ts",
+            "polyfills": "projects/ghost-tool/src/polyfills.ts",
+            "tsConfig": "projects/ghost-tool/tsconfig.spec.json",
+            "karmaConfig": "projects/ghost-tool/karma.conf.js",
+            "assets": [
+              "projects/ghost-tool/src/ghost.ico",
+              "projects/ghost-tool/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/ghost-tool/src/styles.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/font-awesome/css/font-awesome.css"
+            ],
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ghost-tool/tsconfig.app.json",
+              "projects/ghost-tool/tsconfig.spec.json",
+              "projects/ghost-tool/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ghost-tool/e2e/protractor.conf.js",
+            "devServerTarget": "ghost-tool:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ghost-tool:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ghost-tool"
+}

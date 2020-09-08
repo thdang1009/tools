@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row middle-central-flex">
+        <!-- List factors -->
+        <div class="col-lg-4 col-md-12">
+            <div class="list-factor-container mh-view">
+                <table class="table table-bordered table-responsive-md table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Text</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let factor of listFactor; let index = index">
+                            <td>
+                                {{index + 1}}
+                            </td>
+                            <td class="fix-size-col">
+                                <span [hidden]="factor.textEdit"
+                                    (click)="factor.textEdit = true; setFocus('text-' + index)">{{factor.text}}</span>
+                                <input id="text-{{index}}" type="text" [hidden]="!factor.textEdit"
+                                    (blur)="factor.textEdit = false" [(ngModel)]="factor.text">
+                            </td>
+                            <td>
+                                <span class="hover-pointer fw-bold" [style.color]="factor.color" [cpPosition]="'bottom'"
+                                    [cpPositionOffset]="'50%'" [cpPositionRelativeToArrow]="true"
+                                    [(colorPicker)]="factor.color">Pick</span>
+                            </td>
+                            <td style="min-width: 96px;">
+                                <span [hidden]="factor.scoreEdit"
+                                    (click)="factor.scoreEdit = true; setFocus('score-' + index)">{{factor.score}}</span>
+                                <input id="score-{{index}}" type="number" max="100" min="0" [hidden]="!factor.scoreEdit"
+                                    (blur)="factor.scoreEdit = false; factor.score = factor.score % 100"
+                                    [(ngModel)]="factor.score">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Button -->
+        <div class="col-lg-2 col-md-12 text-center">
+            <input class="form-check-input" id="is-hot-reload" type="checkbox" [(ngModel)]="isHotReload" />
+            <label class="form-check-label fw-bold mr-bt" for="is-hot-reload">Live render</label>
+            <!-- <span class="separate"></span> -->
+            <button [disabled]="isRunning" class="btn btn-primary wk-fill-available mr-bt" (click)="updatePreview()">
+                <i class="fa fa-arrow-right">&nbsp;Update</i>
+            </button>
+            <!-- <span class="separate"></span> -->
+            <button [disabled]="isRunning" class="btn btn-danger wk-fill-available"
+                (click)="openPopupReset(modalConfirmReset)">
+                <i class="fa fa-refresh">&nbsp;Reset</i>
+            </button>
+        </div>
+        <!-- Preview -->
+        <div class="col-lg-6 col-md-12">
+            <div class="preview-container mh-view">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #modalConfirmReset let-c="close" let-d="dismiss">
+    <div class="modal-header text-center">
+        <h4 class="modal-title">Alert</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body text-center" style="padding: 20px;">
+        <span>Are you sure to <strong>RESET</strong> everythings?</span>
+    </div>
+    <div class="modal-footer" style="display: block;">
+        <button type="button" (click)="reset(); d('Cross click')" class="btn btn-danger hover-pointer"
+            style="float: right">Yes, reset all!</button>
+        <button type="button" (click)="d('Cross click')" class="btn btn-default" style="float: right">Close</button>
+    </div>
+</ng-template>
