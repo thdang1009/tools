@@ -21,19 +21,29 @@ export class ApiToExcelComponent implements OnInit {
     //
   }
 
+  getHeaders(arr: any[]): any[] {
+    const jsonWithoutSpace = JSON.stringify(arr);
+    const regExKey = /\"[a-z0-9\_]+\"\:/gi;
+    const matches = jsonWithoutSpace.match(regExKey) || [];
+    const formated = matches.map(el => el.replace(/\"|\:/g, ''));
+    return Array.from(new Set(formated)) || [];
+  }
+
   prepareToExport() {
     const object = JSON.parse(this.inputJson);
     const funcs = {
-      isNotArray: Object.keys(object).reduce((res, key) => {
-        const isArray = Array.isArray(object[key]); // pick and format it
-        // formatedData là một mảng gồm phần tử đầu tiên là mảng header
-        // các mảng còn lại chứ pure data ko có key
-        const formatedData = isArray && [Object.keys(object[key][0]), ...object[key].map((subObject: object) => Object.values(subObject)) || []];
+      isNotArray: (obj: any) => Object.keys(obj).reduce((res, key) => {
+        const isArray = Array.isArray(obj[key]);
+        const headers = isArray && this.getHeaders(obj[key]) || [];
+        const formatedData = isArray && [headers, ...obj[key].map((item: object) => headers.map((header: keyof typeof item) => item[header] || '')) || []];
         return isArray && [...res, formatedData] || res;
       }, []),
-      isArray: [[Object.keys(object[0]), ...object.map((subObject: object) => Object.values(subObject)) || []]]
+      isArray: (obj: any) => {
+        const headers = this.getHeaders(obj) || [];
+        return [[headers, ...obj.map((item: object) => headers.map((header: keyof typeof item) => item[header] || ''))]]
+      }
     };
-    const listArr = funcs[Array.isArray(object) && 'isArray' || 'isNotArray'];
+    const listArr = funcs[Array.isArray(object) && 'isArray' || 'isNotArray'](object);
     return { isValid: listArr.length !== 0, listArr };
   }
 
@@ -41,17 +51,16 @@ export class ApiToExcelComponent implements OnInit {
     this.setLoading(true);
     const { isValid, listArr } = this.prepareToExport();
     const wb = XLSX.utils.book_new();
-    const callThirdPartyFunc = (list: any[][]) => {
-      const length = list.length;
-      list.forEach((wsData, index) => {
-        const ws = XLSX.utils.aoa_to_sheet(wsData);
-        XLSX.utils.book_append_sheet(wb, ws, '' + index);
-        // tslint:disable-next-line: no-unused-expression
-        index === length - 1 && this.setLoading(false) && XLSX.writeFile(wb, 'download.xlsx');
+    const length = listArr.length;
+    isValid && listArr.forEach((dataArray: any[], index) => {
+      const ws = XLSX.utils.json_to_sheet(dataArray, {
+        skipHeader: true
       });
-      return true;
-    };
-    return isValid && callThirdPartyFunc(listArr as any[][]);
+      XLSX.utils.book_append_sheet(wb, ws, '' + index);
+      // tslint:disable-next-line: no-unused-expression
+      index === length - 1 && this.setLoading(false) && XLSX.writeFile(wb, 'download.xlsx');
+    });
+    return true;
   }
 
   setLoading(val: boolean) {
