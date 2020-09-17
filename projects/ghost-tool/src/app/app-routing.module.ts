@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
   },
   {
+    path: '**',
+    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)
   },

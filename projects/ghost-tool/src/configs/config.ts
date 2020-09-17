@@ -1,4 +1,4 @@
-import { LifeFactor } from '../app/models/life-factor.model';
+import { LifeFactor } from '../app/core/models/general-model/life-factor.model';
 
 export class AppSettings {
     static FactorInit = [

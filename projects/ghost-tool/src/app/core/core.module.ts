@@ -16,10 +16,10 @@ import { MatButtonModule } from '@angular/material/button';
     RouterModule,
     // material
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   exports: [
-    MainLayoutComponent
+    MainLayoutComponent,
   ]
 })
 export class CoreModule { }

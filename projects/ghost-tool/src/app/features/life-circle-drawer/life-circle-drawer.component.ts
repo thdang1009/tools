@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LifeFactor } from '../../models/life-factor.model';
+import { LifeFactor } from '../../core/models';
 import { AppSettings } from '../../../configs/config';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Renderer2 } from '@angular/core';
